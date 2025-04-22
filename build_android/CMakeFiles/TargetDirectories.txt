@@ -1,0 +1,4 @@
+/home/monsterharry/Documents/sparse_gemv/build_android/CMakeFiles/inner_product_cpu.dir
+/home/monsterharry/Documents/sparse_gemv/build_android/CMakeFiles/inner_product_gpu.dir
+/home/monsterharry/Documents/sparse_gemv/build_android/CMakeFiles/edit_cache.dir
+/home/monsterharry/Documents/sparse_gemv/build_android/CMakeFiles/rebuild_cache.dir
