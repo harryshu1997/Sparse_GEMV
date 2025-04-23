@@ -100,7 +100,7 @@ int main() {
     std::vector<float> sparsities = {0.90f, 0.95f, 0.99f};
 
     // std::vector<int> vec_sizes = {4096};
-    // std::vector<int> mat_rows  = {1000};
+    // std::vector<int> mat_rows  = {10000};
     // std::vector<float> sparsities = {0.95f};
 
     for (int vec_size : vec_sizes) {

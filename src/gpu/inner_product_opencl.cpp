@@ -427,7 +427,7 @@ GEMVResult innerProductOpenCL(const SparseVector& v, const SparseMatrix& A) {
     return result;
 }
 
-
+// use top to see
 // OpenBLAS reference implementation (modified for better performance)
 GEMVResult sparseGEMV_OpenBLAS(const SparseVector& v, const SparseMatrix& A) {
     using Clock = std::chrono::high_resolution_clock;
