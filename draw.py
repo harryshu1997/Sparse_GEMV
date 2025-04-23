@@ -28,11 +28,11 @@ line_styles = {
     'SparseBLAS': ':'
 }
 
-# Output directory
+# Ensure output directory
 os.makedirs("images", exist_ok=True)
 
-# Plot function with hardcoded dense sparsity = 0.0, selectable sparse sparsity
-def plot_with_fixed_dense_and_selectable_sparse(metric, param, fixed_values, sparse_sparsity, ylabel, title):
+# Plot function with optional log scale
+def plot_with_fixed_dense_and_selectable_sparse(metric, param, fixed_values, sparse_sparsity, ylabel, title, log_y=False):
     plt.figure(figsize=(10, 6))
 
     # ---- Dense methods ----
@@ -75,6 +75,9 @@ def plot_with_fixed_dense_and_selectable_sparse(metric, param, fixed_values, spa
 
     plt.xlabel(param)
     plt.ylabel(ylabel)
+    if log_y:
+        plt.yscale("log")
+        title += " (Log Scale)"
     plt.title(title)
     plt.legend()
     plt.tight_layout()
@@ -83,18 +86,25 @@ def plot_with_fixed_dense_and_selectable_sparse(metric, param, fixed_values, spa
     plt.close()
 
 # === CONFIGURATION ===
-# Fixed values (except x-axis param and sparsity for sparse)
 fixed_values = {
     "Rows": 5000,
-    "Cols": 4096
+    "Cols": 512
 }
-# You choose the sparsity to use for Sparse methods
 selected_sparse_sparsity = 0.9
 
-# === PLOTS ===
-plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", "Rows", fixed_values, selected_sparse_sparsity, "Time (ms)", "Latency vs Rows")
-plot_with_fixed_dense_and_selectable_sparse("GFLOPS", "Rows", fixed_values, selected_sparse_sparsity, "GFLOPS", "GFLOPS vs Rows")
-plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", "Cols", fixed_values, selected_sparse_sparsity, "Time (ms)", "Latency vs Cols")
-plot_with_fixed_dense_and_selectable_sparse("GFLOPS", "Cols", fixed_values, selected_sparse_sparsity, "GFLOPS", "GFLOPS vs Cols")
-plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", "Sparsity", fixed_values, selected_sparse_sparsity, "Time (ms)", "Latency vs Sparsity")
-plot_with_fixed_dense_and_selectable_sparse("GFLOPS", "Sparsity", fixed_values, selected_sparse_sparsity, "GFLOPS", "GFLOPS vs Sparsity")
+# === PLOT CALLS ===
+# Latency plots (only linear)
+# for axis in ["Rows", "Cols", "Sparsity"]:
+#     plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", axis, fixed_values, selected_sparse_sparsity, "Time (ms)", f"Time (ms) vs {axis}")
+#     plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", axis, fixed_values, selected_sparse_sparsity, "Time (ms)", f"Time (ms) vs {axis}", log_y=True)
+
+# plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", "Rows", fixed_values, selected_sparse_sparsity, "Time (ms)", "Latency vs Rows")
+# plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", "Cols", fixed_values, selected_sparse_sparsity, "Time (ms)", "Latency vs Cols")
+# plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", "Sparsity", fixed_values, selected_sparse_sparsity, "Time (ms)", "Latency vs Sparsity")
+
+# GFLOPS plots (linear + log scale)
+for axis in ["Rows", "Cols", "Sparsity"]:
+    plot_with_fixed_dense_and_selectable_sparse("GFLOPS", axis, fixed_values, selected_sparse_sparsity, "GFLOPS", f"GFLOPS vs {axis}")
+    plot_with_fixed_dense_and_selectable_sparse("GFLOPS", axis, fixed_values, selected_sparse_sparsity, "GFLOPS", f"GFLOPS vs {axis}", log_y=True)
+    plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", axis, fixed_values, selected_sparse_sparsity, "Time (ms)", f"Time (ms) vs {axis}")
+    plot_with_fixed_dense_and_selectable_sparse("Avg Inference (50 times) Time (ms)", axis, fixed_values, selected_sparse_sparsity, "Time (ms)", f"Time (ms) vs {axis}", log_y=True)
